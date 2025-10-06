@@ -1,0 +1,41 @@
+services:
+  redis:
+    image: redis:7.2-alpine
+    container_name: redis
+    ports:
+      - '6381:6379'
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes
+
+  mysql-database:
+    image: mysql:8.0.36
+    container_name: "mysql-database"
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'explorun'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+    command: --max_allowed_packet=32505856 --explicit_defaults_for_timestamp=OFF
+    ports:
+      - '33566:3306'
+    expose:
+      - '33566'
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  mysql-database-flyway:
+    container_name: "mysql-database-flyway"
+    image: flyway/flyway:11
+    depends_on:
+      - mysql-database
+    command: -url=jdbc:mysql://mysql-database/explorun?verifyServerCertificate=false\&characterEncoding=UTF-8\&useSSL=false -schemas=explorun -user=root -password=password -connectRetries=60 -outOfOrder=false repair  migrate
+    volumes:
+      - "./flyway:/flyway/sql"
+
+
+
+volumes:
+  redis-data:
+  mysql-data:
