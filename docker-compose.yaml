@@ -30,10 +30,15 @@ services:
     image: flyway/flyway:11
     depends_on:
       - mysql-database
-    command: -url=jdbc:mysql://mysql-database/explorun?verifyServerCertificate=false\&characterEncoding=UTF-8\&useSSL=false -schemas=explorun -user=root -password=password -connectRetries=60 -outOfOrder=false repair  migrate
+    command:
+      - "-url=jdbc:mysql://mysql-database/explorun?verifyServerCertificate=false&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true"
+      - "-schemas=explorun"
+      - "-user=root"
+      - "-password=password"
+      - "-connectRetries=60"
+      - "migrate"
     volumes:
       - "./flyway:/flyway/sql"
-
 
 
 volumes:

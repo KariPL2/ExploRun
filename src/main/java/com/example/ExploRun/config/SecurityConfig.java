@@ -45,7 +45,6 @@ public class SecurityConfig {
     return new JwtAuthenticationFilter(jwtProviderService, customUserDetailsService());
   }
 
-
   @Bean
   public AuthenticationProvider authenticationProvider() {
     DaoAuthenticationProvider auth = new DaoAuthenticationProvider(customUserDetailsService());
@@ -65,7 +64,10 @@ public class SecurityConfig {
         .logout(AbstractHttpConfigurer::disable)
         .authorizeHttpRequests(
             (authorize) ->
-                authorize.anyRequest().permitAll())
+                authorize.requestMatchers("/auth/login", "/auth/register")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated())
         .sessionManagement(
             session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authenticationProvider(authenticationProvider())

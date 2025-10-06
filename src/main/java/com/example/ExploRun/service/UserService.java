@@ -15,5 +15,5 @@ public interface UserService {
   UserDTO findByUsername(String username);
   UserDTO findByEmail(String email);
   UserDTO findById(Long id);
-  User createUser(CreateUserRequest createUserRequest);
+  UserDTO createUser(CreateUserRequest createUserRequest);
 }

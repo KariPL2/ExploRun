@@ -37,12 +37,6 @@ public enum Role {
     this.permissions = permissions;
   }
 
-  /**
-   * Konwertuje zestaw uprawnień (String) na format akceptowany przez Spring Security
-   * (SimpleGrantedAuthority), z prefiksem "ROLE_".
-   *
-   * @return Zbiór uprawnień i samej roli w formacie Spring Security.
-   */
   public Set<GrantedAuthority> getAuthorities() {
     Set<GrantedAuthority> authorities = permissions.stream()
         .map(SimpleGrantedAuthority::new)
