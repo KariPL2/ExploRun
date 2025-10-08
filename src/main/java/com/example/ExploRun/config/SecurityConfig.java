@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -64,7 +65,7 @@ public class SecurityConfig {
         .logout(AbstractHttpConfigurer::disable)
         .authorizeHttpRequests(
             (authorize) ->
-                authorize.requestMatchers("/auth/login", "/auth/register")
+                authorize.requestMatchers("/auth/login", "/auth/register","/auth/refresh")
                     .permitAll()
                     .anyRequest()
                     .authenticated())
@@ -74,5 +75,17 @@ public class SecurityConfig {
         .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
     return http.build();
+  }
+
+  @Bean
+  public WebSecurityCustomizer webSecurityCustomizer() {
+    String[] openEndpoints = {
+        "/v3/api-docs/**",
+        "/swagger-ui/**",
+        "/swagger-ui.html",
+        "/error"
+    };
+
+    return (web) -> web.ignoring().requestMatchers(openEndpoints);
   }
 }

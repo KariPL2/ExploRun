@@ -1,0 +1,19 @@
+package com.example.ExploRun.controller;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/public")
+public class PublicController {
+
+  @GetMapping
+  public ResponseEntity<String> WelcomePage(){
+    return ResponseEntity.ok("Welcome to ExploRun!");
+  }
+
+
+
+}

@@ -39,13 +39,13 @@ public class AuthController {
 
   @DeleteMapping("/logout-session")
   public ResponseEntity<String> logoutSession(@Valid @RequestBody RefreshTokenRequest request) {
-    authService.logoutSession(request.getRefresh_token());
+    authService.logoutSession(request.getRefreshToken());
     return ResponseEntity.ok("You have been signed out from current session");
   }
 
   @PostMapping("/refresh")
   public ResponseEntity<?> refresh(@Valid @RequestBody RefreshTokenRequest request) {
-    String refreshToken = request.getRefresh_token();
+    String refreshToken = request.getRefreshToken();
     return authService.refreshToken(refreshToken);
   }
 
