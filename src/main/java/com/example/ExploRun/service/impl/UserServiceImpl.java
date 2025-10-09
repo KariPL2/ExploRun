@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -38,7 +39,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public UserDTO findById(Long id) {
+  public UserDTO findById(UUID id) {
     return userMapper.toUserDTO(userRepository
         .findById(id)
         .orElseThrow( () ->
