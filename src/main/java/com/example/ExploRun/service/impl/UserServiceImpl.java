@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
@@ -23,36 +24,41 @@ public class UserServiceImpl implements UserService {
   private final UserMapper userMapper;
 
   @Override
-  public UserDTO findByUsername(String username) {
-    return userMapper.toUserDTO(userRepository
+  public User findByUsername(String username) {
+    return userRepository
         .findByUsername(username)
         .orElseThrow( () ->
-            new NoSuchElementException("User not found!")));
+            new NoSuchElementException("User not found!"));
   }
 
   @Override
-  public UserDTO findByEmail(String email) {
-    return userMapper.toUserDTO(userRepository
+  public User findByEmail(String email) {
+    return (userRepository
         .findByEmail(email)
         .orElseThrow( () ->
             new NoSuchElementException("User not found!")));
   }
 
   @Override
-  public UserDTO findById(UUID id) {
-    return userMapper.toUserDTO(userRepository
+  public User findById(UUID id) {
+    return (userRepository
         .findById(id)
         .orElseThrow( () ->
             new NoSuchElementException("User not found!")));
   }
 
   @Override
-  public UserDTO createUser(CreateUserRequest createUserRequest) {
+  public User createUser(CreateUserRequest createUserRequest) {
     User user = new User();
     user.setUsername(createUserRequest.getUsername());
     user.setEmail(createUserRequest.getEmail());
     user.setPassword(passwordEncoder.encode(createUserRequest.getPassword()));
     user.setRole(createUserRequest.isPremium() ? Role.PREMIUM_RUNNER : Role.RUNNER);
-    return userMapper.toUserDTO(userRepository.save(user));
+    return userRepository.save(user);
+  }
+
+  @Override
+  public List<User> findAllUsers() {
+    return userRepository.findAll();
   }
 }

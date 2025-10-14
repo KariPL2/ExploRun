@@ -1,7 +1,7 @@
 package com.example.ExploRun.request;
 
 
-import com.example.ExploRun.dto.Point;
+import com.example.ExploRun.entity.Point;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
-import java.util.Map;
 
 @Getter
 @Setter
@@ -52,4 +51,6 @@ public class OpenRouteServiceRequest {
    */
   @JsonProperty("preference")
   private String preference;
+
+  private boolean isRound;
 }

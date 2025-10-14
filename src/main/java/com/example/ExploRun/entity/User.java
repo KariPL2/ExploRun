@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -39,10 +40,14 @@ public class User {
   @Column(name = "role")
   private Role role;
 
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+  private Set<Route> routes;
+
   @Override
   public String toString() {
     return "id " + id +
         "username: " + username +
-        "email: " + email;
+        "email: " + email
+        + "routes: " + routes;
   }
 }

@@ -1,6 +1,7 @@
 package com.example.ExploRun.controller;
 
 import com.example.ExploRun.dto.UserDTO;
+import com.example.ExploRun.mapper.UserMapper;
 import com.example.ExploRun.request.CreateUserRequest;
 import com.example.ExploRun.request.LoginRequestDTO;
 import com.example.ExploRun.request.RefreshTokenRequest;
@@ -23,6 +24,7 @@ public class AuthController {
 
   private final AuthService authService;
   private final UserService userService;
+  private final UserMapper userMapper;
 
   @PostMapping("/login")
   public ResponseEntity<AuthenticationResponse> login(
@@ -51,7 +53,7 @@ public class AuthController {
 
   @PostMapping("/register")
   public ResponseEntity<UserDTO>  register(@Valid @RequestBody CreateUserRequest createUserRequest) {
-    UserDTO userDTO = userService.createUser(createUserRequest);
+    UserDTO userDTO = userMapper.toUserDTO(userService.createUser(createUserRequest));
     return ResponseEntity.ok(userDTO);
   }
 }
