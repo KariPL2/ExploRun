@@ -22,16 +22,6 @@ public class TestController {
     this.openRouteServiceClient = openRouteServiceClient;
   }
 
-//  @GetMapping
-//  @PreAuthorize("hasAuthority('VIEW_ALL_ROUTES')")
-//  public ResponseEntity<List<>> getAllUsers() {}
-
-  @PostMapping
-  @PreAuthorize("hasAuthority('PLAN_ROUTE_BASIC')")
-  public ResponseEntity<String> test(@RequestBody OpenRouteServiceRequest request) {
-    String route = openRouteServiceClient.generateRouteJson(request.getCoordinates(), false, request.getProfile(),  request.getPreference());
-    return ResponseEntity.ok(route);
-  }
 
 
 }

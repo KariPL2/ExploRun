@@ -33,9 +33,9 @@ public class RouteServiceImpl implements RouteService {
   @Override
   @Transactional // Zapewnia, że cała operacja zapisu (trasa + segmenty + kroki) jest atomowa
   @SneakyThrows // Upraszcza obsługę wyjątków z ObjectMapper (w praktyce warto mieć lepszą obsługę)
-  public Route createAndSaveRoute(UUID userId, List<Point> coordinates, boolean isRound, String profile, String preference) {
+  public Route createAndSaveRoute(String username, List<Point> coordinates, boolean isRound, String profile, String preference) {
     // 1. Znajdź użytkownika, do którego przypiszesz trasę
-    User user = userService.findById(userId);
+    User user = userService.findByUsername(username);
     // 2. Pobierz surowy JSON z OpenRouteService
     String routeJson = orsClient.generateRouteJson(coordinates, isRound, profile, preference);
 
